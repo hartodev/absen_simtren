@@ -1,0 +1,23 @@
+# ============================================================
+# Konfigurasi Cloudflare Tunnel untuk wildcard *.ptutamacta.com
+# Mengadaptasi pola dari wildcard-subdomain-test (yang sudah terbukti
+# jalan), diarahkan ke Nginx + PHP-FPM (absen_simtren) alih-alih Node.
+#
+# Lokasi file biasanya: /etc/cloudflared/config.yml
+# ============================================================
+
+tunnel: <TUNNEL_ID_ANDA>          # ganti dengan ID tunnel dari `cloudflared tunnel list`
+credentials-file: /etc/cloudflared/<TUNNEL_ID_ANDA>.json
+
+ingress:
+  # Domain utama
+  - hostname: ptutamacta.com
+    service: http://localhost:80
+
+  # SEMUA subdomain tenant (wildcard) -> diarahkan ke Nginx yang sama,
+  # Nginx+Laravel yang membedakan tenant lewat header Host
+  - hostname: "*.ptutamacta.com"
+    service: http://localhost:80
+
+  # Wajib ada sebagai fallback terakhir
+  - service: http_status:404

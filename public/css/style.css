@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap');
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  color: #17386f;
+  background: #ffffff;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+a { text-decoration: none; color: inherit; }
+button { font-family: inherit; cursor: pointer; }
+ul { margin: 0; padding: 0; list-style: none; }
+
+/* ---------- layout helpers ---------- */
+.section-wrap { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
+@media (max-width: 767px) {
+  .section-wrap { width: min(100% - 32px, 620px); }
+}
+.eyebrow { font-size: .71rem; letter-spacing: .16em; text-transform: uppercase; font-weight: 700; }
+
+/* ---------- animations ---------- */
+@keyframes reveal-up { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse-dot { 0%, 100% { opacity: .45; transform: scale(.86); } 50% { opacity: 1; transform: scale(1); } }
+.reveal { animation: reveal-up .7s cubic-bezier(.22,1,.36,1) both; }
+.reveal-delay-1 { animation-delay: .1s; }
+.reveal-delay-2 { animation-delay: .2s; }
+.reveal-delay-3 { animation-delay: .3s; }
+.pulse-dot { animation: pulse-dot 2s ease-in-out infinite; display: inline-block; }
+
+.noise::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: .035;
+  z-index: 50;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+}
+
+.nav-link { transition: color .2s ease, transform .2s ease; }
+.nav-link:hover { color: #f0a914; transform: translateY(-1px); }
+.nav-active { color: #2563eb !important; }
+
+.button-lift { transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease; }
+.button-lift:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(16, 52, 126, .18); }
+
+.card-lift { transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease; }
+.card-lift:hover { transform: translateY(-5px); border-color: rgba(37, 99, 235, .34); box-shadow: 0 20px 45px rgba(31, 66, 135, .10); }
+
+.shine-button { position: relative; overflow: hidden; }
+.shine-button::after {
+  content: ''; position: absolute; inset: 0 auto 0 -120%; width: 70%;
+  transform: skewX(-18deg);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.34), transparent);
+  transition: left .65s ease;
+}
+.shine-button:hover::after { left: 140%; }
+
+.directory-card { transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+.directory-card:hover, .directory-card:focus-within { transform: translateY(-4px); border-color: rgba(37,99,235,.45); box-shadow: 0 18px 38px rgba(31,66,135,.12); }
+
+.reveal-on-scroll { opacity: 0; transform: translateY(20px); transition: opacity .7s ease, transform .7s cubic-bezier(.22,1,.36,1); }
+.reveal-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
+
+.mesh-blue {
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(117,165,255,.26), transparent 27%),
+    radial-gradient(circle at 85% 22%, rgba(47,97,214,.26), transparent 28%);
+}
+
+.form-control {
+  width: 100%; border: 1px solid #d5e0ef; border-radius: .75rem;
+  background: #fbfcfe; padding: .75rem .9rem; font-size: .875rem;
+  color: #17386f; outline: none;
+  transition: border-color .2s ease, box-shadow .2s ease;
+  font-family: inherit;
+}
+.form-control:focus { border-color: #2563eb; box-shadow: 0 0 0 4px rgba(37,99,235,.1); }
+.form-control::placeholder { color: #9aabc0; }
+
+/* misc utility replacements not in Tailwind CDN defaults */
+.bg-tone-amber { background: #fff0c9; color: #9a5b08; }
+.bg-tone-blue { background: #dceaff; color: #2456b5; }
+.bg-tone-green { background: #dff4ed; color: #167455; }
