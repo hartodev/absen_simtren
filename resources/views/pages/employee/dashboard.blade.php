@@ -1,28 +1,151 @@
-@extends('layouts.tenant')
+@extends('layouts.employee')
+
 @section('title', 'Dashboard')
-@section('nav')
-  <a href="{{ url('/' . request()->segment(1) . '/dashboard') }}" class="text-blue-600">Dashboard</a>
-  <a href="{{ url('/' . request()->segment(1) . '/attendance') }}">Absensi</a>
-@endsection
+
 @section('content')
-<h1 class="text-xl font-extrabold text-[#102b69]">Halo, {{ $dashboard['user']->name }}</h1>
-<div class="mt-5 grid grid-cols-2 gap-4 md:grid-cols-4">
-  <div class="rounded-xl bg-white p-5 shadow-sm">
-    <p class="text-xs font-bold text-gray-400">Hadir Bulan Ini</p>
-    <p class="mt-1 text-2xl font-extrabold text-[#102b69]">{{ $dashboard['hadir'] }}</p>
-  </div>
-  <div class="rounded-xl bg-white p-5 shadow-sm">
-    <p class="text-xs font-bold text-gray-400">Terlambat</p>
-    <p class="mt-1 text-2xl font-extrabold text-yellow-600">{{ $dashboard['terlambat'] }}</p>
-  </div>
-  <div class="rounded-xl bg-white p-5 shadow-sm">
-    <p class="text-xs font-bold text-gray-400">Alpha</p>
-    <p class="mt-1 text-2xl font-extrabold text-red-600">{{ $dashboard['alpha'] }}</p>
-  </div>
-  <div class="rounded-xl bg-white p-5 shadow-sm">
-    <p class="text-xs font-bold text-gray-400">Izin Pending</p>
-    <p class="mt-1 text-2xl font-extrabold text-blue-600">{{ $dashboard['izin_pending'] }}</p>
-  </div>
+<div class="page-title">Halo, {{ $user->name }}</div>
+<div class="page-sub">{{ \Carbon\Carbon::parse($today)->isoFormat('dddd, D MMMM Y') }}</div>
+
+@if(session('success'))
+<div class="alert alert-success" style="margin-bottom:14px">{{ session('success') }}</div>
+@endif
+@if(session('error'))
+<div class="alert alert-danger" style="margin-bottom:14px">{{ session('error') }}</div>
+@endif
+
+{{-- Status absensi hari ini --}}
+<div class="card">
+    <div class="card-header">
+        <span class="card-title">Status Hari Ini</span>
+        @if($attendance && $attendance->time_in && $attendance->time_out)
+        <span class="badge badge-success">Selesai</span>
+        @elseif($attendance && $attendance->time_in)
+        <span class="badge badge-warning">Belum Checkout</span>
+        @else
+        <span class="badge badge-gray">Belum Check-in</span>
+        @endif
+    </div>
+    <div class="card-body">
+        <div class="metrics">
+            <div class="metric">
+                <div class="metric-label">Shift</div>
+                <div class="metric-val">{{ $shift->name ?? 'Default' }}</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Jadwal Masuk</div>
+                <div class="metric-val">{{ $scheduledIn?->format('H:i') ?? '—' }}</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Jadwal Pulang</div>
+                <div class="metric-val">{{ $scheduledOut?->format('H:i') ?? '—' }}</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Jam Masuk</div>
+                <div class="metric-val">{{ $attendance->time_in ?? '—' }}</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Jam Keluar</div>
+                <div class="metric-val">{{ $attendance->time_out ?? '—' }}</div>
+            </div>
+        </div>
+
+        <a href="{{ route('company.member.attendance.index') }}" class="btn btn-outline"
+            style="margin-top:18px;width:100%;text-align:center">
+            Buka Absensi &rarr;
+        </a>
+    </div>
 </div>
-<a href="{{ url('/' . request()->segment(1) . '/attendance') }}" class="mt-6 inline-block rounded-lg bg-blue-600 px-5 py-3 text-sm font-bold text-white">Lihat Detail Absensi</a>
+
+{{-- Ringkasan bulan ini --}}
+<div class="card" style="margin-top:16px">
+    <div class="card-header">
+        <span class="card-title">Ringkasan Bulan Ini</span>
+    </div>
+    <div class="card-body">
+        <div class="metrics">
+            <div class="metric">
+                <div class="metric-label">Hadir</div>
+                <div class="metric-val">{{ $summary['hadir'] }}</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Terlambat</div>
+                <div class="metric-val warning">{{ $summary['terlambat'] }}</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Izin</div>
+                <div class="metric-val info">{{ $summary['izin'] }}</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Cuti</div>
+                <div class="metric-val info">{{ $summary['cuti'] }}</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Alpha</div>
+                <div class="metric-val warning">{{ $summary['alpha'] }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- Menu cepat --}}
+<div class="card" style="margin-top:16px">
+    <div class="card-header">
+        <span class="card-title">Menu Lainnya</span>
+    </div>
+    <div class="card-body" style="padding:0">
+        @foreach($menu as $item)
+        @if($item['active'])
+        <a href="{{ route($item['route']) }}" class="menu-row">
+            <span>{{ $item['label'] }}</span>
+            <span>&rarr;</span>
+        </a>
+        @else
+        <div class="menu-row menu-row-disabled">
+            <span>{{ $item['label'] }}</span>
+            <span class="badge badge-gray">Segera Hadir</span>
+        </div>
+        @endif
+        @endforeach
+    </div>
+</div>
+
+<style>
+.menu-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--c-border, #eee);
+    text-decoration: none;
+    color: inherit;
+    font-size: 14px;
+    font-weight: 600
+}
+
+.menu-row:last-child {
+    border-bottom: none
+}
+
+.menu-row-disabled {
+    color: var(--c-muted, #8a94a6);
+    font-weight: 500
+}
+
+.alert {
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600
+}
+
+.alert-success {
+    background: #e0f4ea;
+    color: #198754
+}
+
+.alert-danger {
+    background: #fff1f1;
+    color: #b34040
+}
+</style>
 @endsection

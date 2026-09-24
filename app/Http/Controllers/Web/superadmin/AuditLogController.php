@@ -15,17 +15,17 @@ class AuditLogController extends Controller
 {
     public function index(Request $request)
     {
-        return view('pages.admin.coming-soon', ['title' => 'AuditLogController']);
+        return view('pages.superadmin.coming-soon', ['title' => 'AuditLogController']);
     }
 
     public function show(Request $request, $id = null)
     {
-        return view('pages.admin.coming-soon', ['title' => 'AuditLogController']);
+        return view('pages.superadmin.coming-soon', ['title' => 'AuditLogController']);
     }
 
     public function create(Request $request)
     {
-        return view('pages.admin.coming-soon', ['title' => 'AuditLogController']);
+        return view('pages.superadmin.coming-soon', ['title' => 'AuditLogController']);
     }
 
     public function store(Request $request)
@@ -35,7 +35,7 @@ class AuditLogController extends Controller
 
     public function edit(Request $request, $id = null)
     {
-        return view('pages.admin.coming-soon', ['title' => 'AuditLogController']);
+        return view('pages.superadmin.coming-soon', ['title' => 'AuditLogController']);
     }
 
     public function update(Request $request, $id = null)
@@ -50,6 +50,6 @@ class AuditLogController extends Controller
 
     public function __call($name, $args)
     {
-        return view('pages.admin.coming-soon', ['title' => 'AuditLogController']);
+        return view('pages.superadmin.coming-soon', ['title' => 'AuditLogController']);
     }
 }

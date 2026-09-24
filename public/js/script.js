@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
   lucide.createIcons();
   initMobileMenu();
   initActiveNav();
-  initRevealOnScroll();
   renderDashboardMockup('dashboard-mockup-hero');
   renderModules();
   renderDirectory();
@@ -16,6 +15,12 @@ document.addEventListener('DOMContentLoaded', () => {
   renderPricing();
   renderFAQ();
   initDemoForm();
+  // Dipanggil PALING TERAKHIR, setelah semua kartu (modules-grid,
+  // testimonials-grid, dll) selesai disuntikkan ke DOM. Kalau dipanggil
+  // duluan, observer cuma mengamati elemen .reveal-on-scroll yang statis
+  // di HTML -- kartu yang muncul belakangan lewat innerHTML tidak pernah
+  // "diamati", jadi tetap opacity:0 selamanya (kelihatan seperti section kosong).
+  initRevealOnScroll();
   lucide.createIcons(); // re-run after dynamic content injected
 });
 

@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Models\Company;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -27,19 +28,23 @@ class ResolveTenant
         $company = Company::bySubdomain($subdomain)->first();
 
         if (!$company) {
-            return response()->view('tenant.tidak-ditemukan', ['subdomain' => $subdomain], 404);
+            return response()->view('pages.status.tidak-ditemukan', ['subdomain' => $subdomain], 404);
         }
 
         if ($company->status === 'pending') {
-            return response()->view('tenant.pending', ['company' => $company], 403);
+            return response()->view('pages.status.pending', ['company' => $company], 403);
         }
 
         if ($company->status === 'nonaktif') {
-            return response()->view('tenant.nonaktif', ['company' => $company], 403);
+            return response()->view('pages.status.nonaktif', ['company' => $company], 403);
         }
 
         app()->instance('tenant', $company);
         $request->attributes->set('tenant', $company);
+
+        // Supaya route('company.xxx') di mana pun (controller/blade) otomatis
+        // terisi parameter {tenant} tanpa perlu ditulis manual tiap kali.
+        URL::defaults(['tenant' => $subdomain]);
 
         return $next($request);
     }

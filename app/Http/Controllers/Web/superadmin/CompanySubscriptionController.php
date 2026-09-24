@@ -15,17 +15,17 @@ class CompanySubscriptionController extends Controller
 {
     public function index(Request $request)
     {
-        return view('pages.admin.coming-soon', ['title' => 'CompanySubscriptionController']);
+        return view('pages.superadmin.coming-soon', ['title' => 'CompanySubscriptionController']);
     }
 
     public function show(Request $request, $id = null)
     {
-        return view('pages.admin.coming-soon', ['title' => 'CompanySubscriptionController']);
+        return view('pages.superadmin.coming-soon', ['title' => 'CompanySubscriptionController']);
     }
 
     public function create(Request $request)
     {
-        return view('pages.admin.coming-soon', ['title' => 'CompanySubscriptionController']);
+        return view('pages.superadmin.coming-soon', ['title' => 'CompanySubscriptionController']);
     }
 
     public function store(Request $request)
@@ -35,7 +35,7 @@ class CompanySubscriptionController extends Controller
 
     public function edit(Request $request, $id = null)
     {
-        return view('pages.admin.coming-soon', ['title' => 'CompanySubscriptionController']);
+        return view('pages.superadmin.coming-soon', ['title' => 'CompanySubscriptionController']);
     }
 
     public function update(Request $request, $id = null)
@@ -50,6 +50,6 @@ class CompanySubscriptionController extends Controller
 
     public function __call($name, $args)
     {
-        return view('pages.admin.coming-soon', ['title' => 'CompanySubscriptionController']);
+        return view('pages.superadmin.coming-soon', ['title' => 'CompanySubscriptionController']);
     }
 }

@@ -15,17 +15,17 @@ class PlanController extends Controller
 {
     public function index(Request $request)
     {
-        return view('pages.admin.coming-soon', ['title' => 'PlanController']);
+        return view('pages.superadmin.coming-soon', ['title' => 'PlanController']);
     }
 
     public function show(Request $request, $id = null)
     {
-        return view('pages.admin.coming-soon', ['title' => 'PlanController']);
+        return view('pages.superadmin.coming-soon', ['title' => 'PlanController']);
     }
 
     public function create(Request $request)
     {
-        return view('pages.admin.coming-soon', ['title' => 'PlanController']);
+        return view('pages.superadmin.coming-soon', ['title' => 'PlanController']);
     }
 
     public function store(Request $request)
@@ -35,7 +35,7 @@ class PlanController extends Controller
 
     public function edit(Request $request, $id = null)
     {
-        return view('pages.admin.coming-soon', ['title' => 'PlanController']);
+        return view('pages.superadmin.coming-soon', ['title' => 'PlanController']);
     }
 
     public function update(Request $request, $id = null)
@@ -50,6 +50,6 @@ class PlanController extends Controller
 
     public function __call($name, $args)
     {
-        return view('pages.admin.coming-soon', ['title' => 'PlanController']);
+        return view('pages.superadmin.coming-soon', ['title' => 'PlanController']);
     }
 }

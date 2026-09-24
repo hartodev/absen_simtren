@@ -3,8 +3,8 @@
 @section('title', 'Detail Absensi')
 
 @section('breadcrumb')
-    <a href="{{ route('employee.attendance.index') }}">Absensi</a>
-    <span class="current">Detail</span>
+<a href="{{ route('company.member.attendance.index') }}">Absensi</a>
+<span class="current">Detail</span>
 @endsection
 
 @section('content')
@@ -56,7 +56,7 @@
             <div>Lokasi Keluar: {{ $attendance['latlon_out'] ?? '—' }}</div>
         </div>
 
-        <a href="{{ route('employee.attendance.index') }}" class="btn btn-outline" style="margin-top:20px">
+        <a href="{{ route('company.member.attendance.index') }}" class="btn btn-outline" style="margin-top:20px">
             &larr; Kembali ke Riwayat
         </a>
     </div>

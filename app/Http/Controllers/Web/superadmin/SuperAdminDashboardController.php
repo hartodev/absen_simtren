@@ -16,6 +16,6 @@ class SuperAdminDashboardController extends Controller
         $totalUsers = User::count();
         $byType = Company::selectRaw('type, count(*) as jumlah')->groupBy('type')->pluck('jumlah', 'type');
 
-        return view('pages.admin.dashboard', compact('totalTenants', 'totalAktif', 'totalPending', 'totalUsers', 'byType'));
+        return view('pages.superadmin.dashboard', compact('totalTenants', 'totalAktif', 'totalPending', 'totalUsers', 'byType'));
     }
 }

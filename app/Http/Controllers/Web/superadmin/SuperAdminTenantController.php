@@ -18,12 +18,12 @@ class SuperAdminTenantController extends Controller
             ->paginate(20)
             ->withQueryString();
 
-        return view('pages.admin.tenants.index', compact('tenants'));
+        return view('pages.superadmin.tenants.index', compact('tenants'));
     }
 
     public function create()
     {
-        return view('pages.admin.tenants.create', ['types' => config('organization_types')]);
+        return view('pages.superadmin.tenants.create', ['types' => config('organization_types')]);
     }
 
     public function store(Request $request)
@@ -42,17 +42,34 @@ class SuperAdminTenantController extends Controller
                 },
             ],
             'status' => ['required', Rule::in(['pending', 'aktif', 'nonaktif'])],
+            'dashboard_style' => ['nullable', Rule::in(['simple', 'full'])],
         ]);
 
-        Company::create($request->only('name', 'type', 'subdomain', 'status'));
+        Company::create($request->only('name', 'type', 'subdomain', 'status') + [
+            'dashboard_style' => $request->input('dashboard_style') ?: null,
+            'is_boarding'     => $request->boolean('is_boarding'),
+        ]);
 
         return redirect()->route('superadmin.tenants.index')->with('success', 'Tenant berhasil dibuat.');
+    }
+
+    /** Ubah tampilan admin (hijau TPQ / biru) & status asrama untuk tenant pesantren/sekolah. */
+    public function updateStyle(Request $request, $id)
+    {
+        $data = $request->validate(['dashboard_style' => ['nullable', Rule::in(['simple', 'full'])]]);
+
+        Company::findOrFail($id)->update([
+            'dashboard_style' => $data['dashboard_style'] ?: null,
+            'is_boarding'     => $request->boolean('is_boarding'),
+        ]);
+
+        return back()->with('success', 'Tampilan tenant diperbarui.');
     }
 
     public function show($id)
     {
         $tenant = Company::with('users')->findOrFail($id);
-        return view('pages.admin.tenants.show', compact('tenant'));
+        return view('pages.superadmin.tenants.show', compact('tenant'));
     }
 
     public function suspend($id)

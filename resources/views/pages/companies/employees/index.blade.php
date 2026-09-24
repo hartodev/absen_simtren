@@ -4,11 +4,6 @@
 @endphp
 @extends('layouts.tenant')
 @section('title', $istilah)
-@section('nav')
-  <a href="{{ url('/' . $prefix . '/dashboard') }}">Dashboard</a>
-  <a href="{{ url('/' . $prefix . '/attendances') }}">Absensi</a>
-  <a href="{{ url('/' . $prefix . '/employees') }}" class="text-blue-600">{{ $istilah }}</a>
-@endsection
 @section('content')
 <div class="flex items-center justify-between">
   <h1 class="text-xl font-extrabold text-[#102b69]">Data {{ $istilah }}</h1>
@@ -25,7 +20,7 @@
       <tr><th class="px-4 py-3">Nama</th><th class="px-4 py-3">Email</th><th class="px-4 py-3 text-right">Aksi</th></tr>
     </thead>
     <tbody class="divide-y">
-      @forelse ($employees as $e)
+      @forelse ($karyawan as $e)
         <tr>
           <td class="px-4 py-3 font-semibold">{{ $e->name }}</td>
           <td class="px-4 py-3 text-gray-500">{{ $e->email }}</td>
@@ -43,5 +38,5 @@
     </tbody>
   </table>
 </div>
-<div class="mt-4">{{ $employees->links() }}</div>
+<div class="mt-4">{{ $karyawan->links() }}</div>
 @endsection

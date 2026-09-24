@@ -29,15 +29,15 @@ class DetectTenant
         $tenant = \App\Models\Tenant::where('subdomain', $subdomain)->first();
 
         if (!$tenant) {
-            return response()->view('tenant.tidak-ditemukan', ['subdomain' => $subdomain], 404);
+            return response()->view('pages.status.tidak-ditemukan', ['subdomain' => $subdomain], 404);
         }
 
         if ($tenant->status === 'pending') {
-            return response()->view('tenant.pending', ['tenant' => $tenant], 403);
+            return response()->view('pages.status.pending', ['tenant' => $tenant], 403);
         }
 
         if ($tenant->status === 'nonaktif') {
-            return response()->view('tenant.nonaktif', ['tenant' => $tenant], 403);
+            return response()->view('pages.status.nonaktif', ['tenant' => $tenant], 403);
         }
 
         app()->instance('currentTenant', $tenant);

@@ -15,17 +15,17 @@ class GlobalSearchController extends Controller
 {
     public function index(Request $request)
     {
-        return view('pages.admin.coming-soon', ['title' => 'GlobalSearchController']);
+        return view('pages.superadmin.coming-soon', ['title' => 'GlobalSearchController']);
     }
 
     public function show(Request $request, $id = null)
     {
-        return view('pages.admin.coming-soon', ['title' => 'GlobalSearchController']);
+        return view('pages.superadmin.coming-soon', ['title' => 'GlobalSearchController']);
     }
 
     public function create(Request $request)
     {
-        return view('pages.admin.coming-soon', ['title' => 'GlobalSearchController']);
+        return view('pages.superadmin.coming-soon', ['title' => 'GlobalSearchController']);
     }
 
     public function store(Request $request)
@@ -35,7 +35,7 @@ class GlobalSearchController extends Controller
 
     public function edit(Request $request, $id = null)
     {
-        return view('pages.admin.coming-soon', ['title' => 'GlobalSearchController']);
+        return view('pages.superadmin.coming-soon', ['title' => 'GlobalSearchController']);
     }
 
     public function update(Request $request, $id = null)
@@ -50,6 +50,6 @@ class GlobalSearchController extends Controller
 
     public function __call($name, $args)
     {
-        return view('pages.admin.coming-soon', ['title' => 'GlobalSearchController']);
+        return view('pages.superadmin.coming-soon', ['title' => 'GlobalSearchController']);
     }
 }

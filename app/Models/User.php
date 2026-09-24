@@ -37,4 +37,13 @@ class User extends Authenticatable
     {
         return $this->role === 'superadmin';
     }
+
+   public function shiftGroups()
+{
+    return $this->belongsToMany(ShiftGroups::class,
+        'shift_group_users',
+        'user_id',
+        'shift_group_id'
+    )->withPivot(['start_date', 'end_date'])->withTimestamps();
+}
 }

@@ -162,4 +162,38 @@ class Company extends Model
     {
         return $this->hasMany(StudentAttendance::class);
     }
+
+    // ═══════════════════════════════════════════════════════════════════
+    // GAYA DASHBOARD (hijau = TPQ, biru = sekolah umum / pondok pesantren)
+    // ═══════════════════════════════════════════════════════════════════
+
+    public const DASHBOARD_SIMPLE = 'simple'; // hijau, TPQ
+    public const DASHBOARD_FULL   = 'full';   // biru, grid modul
+
+    /**
+     * Urutan penentuan:
+     *  1. kolom companies.dashboard_style kalau diisi superadmin
+     *  2. school                      -> full  (biru)
+     *  3. pesantren + is_boarding=1   -> full  (biru, pondok pesantren)
+     *  4. pesantren + is_boarding=0   -> simple (hijau, TPQ)
+     */
+    public function dashboardStyle(): string
+    {
+        if (in_array($this->dashboard_style, [self::DASHBOARD_SIMPLE, self::DASHBOARD_FULL], true)) {
+            return $this->dashboard_style;
+        }
+
+        if ($this->type === 'pesantren') {
+            return $this->is_boarding ? self::DASHBOARD_FULL : self::DASHBOARD_SIMPLE;
+        }
+
+        return self::DASHBOARD_FULL;
+    }
+
+    /** Punya layanan asrama (pondok pesantren / sekolah pondok)? */
+    public function hasBoarding(): bool
+    {
+        return (bool) $this->is_boarding
+            || ($this->type === 'pesantren' && $this->dashboardStyle() === self::DASHBOARD_FULL);
+    }
 }

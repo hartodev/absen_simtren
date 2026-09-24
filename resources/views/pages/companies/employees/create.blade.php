@@ -4,11 +4,6 @@
 @endphp
 @extends('layouts.tenant')
 @section('title', 'Tambah ' . $istilah)
-@section('nav')
-  <a href="{{ url('/' . $prefix . '/dashboard') }}">Dashboard</a>
-  <a href="{{ url('/' . $prefix . '/attendances') }}">Absensi</a>
-  <a href="{{ url('/' . $prefix . '/employees') }}" class="text-blue-600">{{ $istilah }}</a>
-@endsection
 @section('content')
 <h1 class="text-xl font-extrabold text-[#102b69]">Tambah {{ $istilah }}</h1>
 
@@ -25,6 +20,14 @@
   <div>
     <label class="mb-1 block text-xs font-bold text-gray-500">Email (untuk login)</label>
     <input type="email" name="email" required value="{{ old('email') }}" class="h-12 w-full rounded-lg border border-gray-300 px-3">
+  </div>
+  <div>
+    <label class="mb-1 block text-xs font-bold text-gray-500">Departemen</label>
+    <input type="text" name="department" required value="{{ old('department') }}" class="h-12 w-full rounded-lg border border-gray-300 px-3">
+  </div>
+  <div>
+    <label class="mb-1 block text-xs font-bold text-gray-500">Jabatan</label>
+    <input type="text" name="position" required value="{{ old('position') }}" class="h-12 w-full rounded-lg border border-gray-300 px-3">
   </div>
   <div class="grid grid-cols-2 gap-3">
     <div>
